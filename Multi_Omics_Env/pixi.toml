@@ -59,8 +59,7 @@ CNVkit = "*"
 gistic2 = { version = "*", channel = "HCC" }
 # 下游展示
 bioconductor-maftools = "*"
-# MutSig2CV
-mcr = { version = "*", channel = "HCC" }
+
 
 [feature.rnaseq.dependencies]
 # 比对
@@ -98,14 +97,17 @@ deploy = {cmd = "echo 'Deploy done'", depends-on = [
     "install", # install packages
     "wes_irkernel_register",
     "rna_irkernel_register",
-    "mutsig2cv",
+    # "mutsig2cv",
+    # "mcr_unzip"
 ] }
 
 [feature.data_science_py.tasks]
 ipykernel_register = {cmd = "python -m ipykernel install --user --name data_science"}
 
 [feature.wes.tasks]
-mutsig2cv = {cmd = "git clone https://githubfast.com/getzlab/MutSig2CV"}
+# mcr_dl = {cmd = "mkdir -p MutSig2CV && wget -O MutSig2CV/MCR_R2013a_glnxa64_installer.zip https://ssd.mathworks.com/supportfiles/MCR_Runtime/R2013a/MCR_R2013a_glnxa64_installer.zip", outputs = ['MutSig2CV/MCR_R2013a_glnxa64_installer.zip']}
+# mcr_unzip = {cmd = "unzip MutSig2CV/MCR_R2013a_glnxa64_installer.zip -d MutSig2CV/mcr", inputs = ['MutSig2CV/MCR_R2013a_glnxa64_installer.zip'], outputs = ['MutSig2CV/MutSig2CV/README.md']} 
+# mutsig2cv = {cmd = "git clone https://githubfast.com/getzlab/MutSig2CV MutSig2CV/MutSig2CV", inputs = ['MutSig2CV/MCR_R2013a_glnxa64_installer.zip'], outputs = ['MutSig2CV/MutSig2CV/README.md']}
 wes_irkernel_register = { cmd = "Rscript -e \"IRkernel::installspec(name = 'wes', displayname = 'WES')\""}
 
 [feature.rnaseq.tasks]
