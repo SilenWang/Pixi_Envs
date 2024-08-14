@@ -27,6 +27,9 @@ r-base = "4.2.*"
 r-irkernel = "*"
 r-remotes = "*"
 r-devtools = "*"
+r-ggplot2 = "*"
+r-ggpubr = "*"
+jupyter = "*"
 
 [feature.data_science_py.dependencies]
 numpy = "*"
@@ -56,6 +59,8 @@ CNVkit = "*"
 gistic2 = { version = "*", channel = "HCC" }
 # 下游展示
 bioconductor-maftools = "*"
+# MutSig2CV
+mcr = { version = "*", channel = "HCC" }
 
 [feature.rnaseq.dependencies]
 # 比对
@@ -69,6 +74,9 @@ bioconductor-limma = "*"
 bioconductor-deseq2 = "*"
 # 富集
 bioconductor-clusterProfiler = "*"
+
+[feature.rnaseq.pypi-dependencies]
+signatureanalyzer = "*"
 
 [feature.common.dependencies]
 snakemake = "*"
@@ -85,30 +93,20 @@ macs2 = "*"
 deeptools = "*"
 
 [tasks]
-# install = {cmd = "pixi install -a"}
-# deploy = {cmd = "echo 'Deploy done'", depends-on = [
-#     "install", # install packages
-#     "shapemapper_link", "annovar_link", "cellranger_link", # link uncompressed soft
-#     "rlang_post_install", "python3_post_install", # install need package not found in conda/pypi
-#     "kernel_register_rlang", "kernel_register_python3", "kernel_register_python2" # add jupyter kernel
-# ] }
+install = {cmd = "pixi install -a"}
+deploy = {cmd = "echo 'Deploy done'", depends-on = [
+    "install", # install packages
+    "wes_irkernel_register",
+    "rna_irkernel_register",
+    "mutsig2cv",
+] }
 
-# [feature.bioinfo.tasks]
-# shapemapper_dl = {cmd = "wget -O build/shapemapper2-2.2.tar.gz https://github.com/Weeks-UNC/shapemapper2/releases/download/2.2.0/shapemapper2-2.2.tar.gz", outputs = ["build/shapemapper2-2.2.tar.gz"] }
-# shapemapper_untar = {cmd = "tar xvf build/shapemapper2-2.2.tar.gz -C .pixi/envs/bioinfo/share/",  inputs=["build/shapemapper2-2.2.tar.gz"]}
-# shapemapper_link = {cmd = "ln -s $PWD/.pixi/envs/bioinfo/share/shapemapper2/shapemapper .pixi/envs/bioinfo/bin/shapemapper", depends-on=["shapemapper_untar"]}
+[feature.data_science_py.tasks]
+ipykernel_register = {cmd = "python -m ipykernel install --user --name data_science"}
 
-# cellranger_dl = {cmd = "wget -O build/cellranger-7.2.0.tar.gz 'https://cf.10xgenomics.com/releases/cell-exp/cellranger-7.2.0.tar.gz?Expires=1718891687&Key-Pair-Id=APKAI7S6A5RYOXBWRPDA&Signature=TpvRSQNPoCnF1PL8wK5N7lt9Vgr5tRyqRUwRNBTWMTr23KfgTPNu08yrVC6wk-0n~c8Gj2FBgvcNhSU2PTQRTqsyoEvG2R-LUhSjjVpBCdMV4v91Svs0UnIxjLvP5P7vqRGrfh5kBTa0CgW~SnLN4jveO7DY5PH~cJ-0krOTqCR76V0XKA06EAIC2u5tcJFv7kB1Pxs9VCDsAEnfu3sWmiixudORujqmg~GRk5yIyEExlC-oD~RJPbfh9EMiTumc6tAWRrbhSA0UdeL~Z~f1ZSJUqWiwCzxY5k2krrFSBI1TkhFVZf66X9Z0YDYk3S5mL6SXIllUOnsYLtjqrtnpsw__'", outputs=["build/cellranger-7.2.0.tar.gz"]}
-# cellranger_untar = {cmd = "tar xvf build/cellranger-7.2.0.tar.gz -C .pixi/envs/bioinfo/share/", inputs=["build/cellranger-7.2.0.tar.gz"]}
-# cellranger_link = {cmd = "ln -s $PWD/.pixi/envs/bioinfo/share/cellranger-7.2.0/cellranger .pixi/envs/bioinfo/bin/cellranger", depends-on=["cellranger_untar"]}
+[feature.wes.tasks]
+mutsig2cv = {cmd = "git clone https://githubfast.com/getzlab/MutSig2CV"}
+wes_irkernel_register = { cmd = "Rscript -e \"IRkernel::installspec(name = 'wes', displayname = 'WES')\""}
 
-# [feature.rlang.tasks]
-# rlang_post_install = {cmd = "Rscript rlang_post_install.r"}
-# kernel_register_rlang = {cmd = "Rscript rlang_kernel.r && python -m ipykernel install --user --name rlang_py"}
-
-# [feature.data_science.tasks]
-# python3_post_install = {cmd = "pip3 install 'nbconvert[webpdf]' -i https://pypi.tuna.tsinghua.edu.cn/simple"}
-# kernel_register_python3 = {cmd = "python -m ipykernel install --user --name Python3"}
-
-# [feature.python2_base.tasks]
-# kernel_register_python2 = {cmd = "python -m ipykernel install --user --name Python2"}
+[feature.rnaseq.tasks]
+rna_irkernel_register = { cmd = "Rscript -e \"IRkernel::installspec(name = 'rnaseq', displayname = 'RNA_Seq')\""}
