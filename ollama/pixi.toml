@@ -1,0 +1,12 @@
+[project]
+authors = ["Sylens Wong <qiumin14@163.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "ollama"
+platforms = ["linux-aarch64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+go = ">=1.23.2,<2"
