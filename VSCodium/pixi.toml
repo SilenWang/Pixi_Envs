@@ -1,0 +1,15 @@
+[project]
+authors = ["Sylens Wong <qiumin14@163.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "VSCodium"
+platforms = ["linux-aarch64"]
+version = "0.1.0"
+
+[tasks]
+# code = { cmd = "./bin/codium --ozone-platform=wayland", env = { LD_LIBRARY_PATH = ".pixi/envs/default/lib:$LD_LIBRARY_PATH" } }
+code = { cmd = "./VSCode/VSCode-linux-arm64/bin/code --ozone-platform=wayland --enable-webgl-image-chromium --enable-native-gpu-memory-buffers --has-chromeos-keyboard --enable-touchview --enable-wayland-server --enable-hardware-overlays=single-fullscreen --disable-buffer-bw-compression --enable-zero-copy --lang=zh-CN --ignore-gpu-blacklist --ash-use-cros-mojo-service-manager", env = { LD_LIBRARY_PATH = ".pixi/envs/default/lib:$LD_LIBRARY_PATH"} }
+
+[dependencies]
+atk = ">=2.38.0,<3"
+gtk3 = ">=3.24.43,<4"
