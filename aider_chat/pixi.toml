@@ -1,0 +1,13 @@
+[project]
+authors = ["Sylens Wong <qium@aimingmed.com>"]
+channels = ["conda-forge"]
+description = "Install AI aigent Aider to enviroment"
+name = "aider_chat"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[dependencies]
+python = "3.12.*"
+
+[pypi-dependencies]
+aider-chat = "*"
